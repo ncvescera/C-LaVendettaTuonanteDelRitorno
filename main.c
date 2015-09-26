@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAXSTRLEN 50
 #define FSTUDENTE "studente.txt"
 #define FDOCENTE "docente.txt"
 
@@ -11,14 +12,14 @@ void replace(char* stringa, char vecchio, char nuovo);
 int main(){
     
     char *data; 
-    char stringa[50];
-    char ruolo[50];
-    char temp[50];
+    char stringa[MAXSTRLEN+1];
+    char ruolo[MAXSTRLEN+1];
+    char temp[MAXSTRLEN+1];
     
     FILE *puntafile;
     
-    data = getenv("QUERY_STRING");
-    sscanf(data,"%s",stringa);
+    data = getenv("QUERY_STRING"); //il vaolore che viene passatro tramite un form risiede dentro ad una variabile d'ambiente chiamata QUERY_STRING
+    sscanf(data,"%s",stringa);     // getenv permette di prendere quella variabile e restituisce un puntatore a char
     
     substring(stringa,ruolo);
  
@@ -36,9 +37,7 @@ int main(){
     fscanf(puntafile,"%s",temp);
     replace(temp,'+',' ');
     printf("%s",temp);
-
-    
-    
+  
     printf("</center></body>\n");
     printf("</html>\n");
 
@@ -49,16 +48,17 @@ void substring(char stringa[], char ruolo[]){
     int i;
     int j=0;
     
-    
+//inizia dopo 6 caratteri perchè il contenuto dell'array stringa è: (es.)"ruolo=studente"
     for(i=6;i<lunghezza;i++){   
         ruolo[j]=stringa[i];
         j++;
     }
-    ruolo[j]='\0';
+    ruolo[j]='\0'; //viene aggiunto il terminatore di stringa altrimenti stampava caratteri a caso
 }
 void replace(char* stringa, char vecchio, char nuovo){
     int i;
     for(i=0;i<strlen(stringa);i++){
-        if(stringa[i]==vecchio)stringa[i]=nuovo;
+        if(stringa[i]==vecchio)
+            stringa[i]=nuovo;
   }
 }
