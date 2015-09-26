@@ -49,11 +49,12 @@ void substring(char stringa[], char ruolo[]){
     int i;
     int j=0;
     
-    for(i=6;i<lunghezza-1;i++){
+    
+    for(i=6;i<lunghezza;i++){   
         ruolo[j]=stringa[i];
         j++;
     }
-   strcat(ruolo,"e\0");
+    ruolo[j]='\0';
 }
 void replace(char* stringa, char vecchio, char nuovo){
     int i;
