@@ -5,6 +5,7 @@
 #define MAXSTRLEN 50
 #define FSTUDENTE "studente.txt"
 #define FDOCENTE "docente.txt"
+#define FDIRIGENTE "dirigente.txt"
 
 void substring(char stringa[], char ruolo[]);
 void replace(char* stringa, char vecchio, char nuovo);
@@ -33,7 +34,10 @@ int main(){
     
     if(strcmp(ruolo,"docente")==0)
        puntafile=fopen(FDOCENTE,"r");
-     
+    
+    if(strcmp(ruolo,"dirigente")==0)
+       puntafile=fopen(FDIRIGENTE,"r");
+    
     fscanf(puntafile,"%s",temp);
     replace(temp,'+',' ');
     printf("%s",temp);
