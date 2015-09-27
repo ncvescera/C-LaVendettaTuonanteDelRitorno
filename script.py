@@ -10,6 +10,8 @@ if ruolo == "studente":
 
 if ruolo == "docente":
 	myfile = open("docente.txt","r")
+if ruolo == "dirigente":
+	myfile = open("dirigente.txt","r")
 	
 output = myfile.read()
 
