@@ -44,7 +44,7 @@ int main(){
   
     printf("</center></body>\n");
     printf("</html>\n");
-//chiudere file !!!
+    fclose(puntafile);
 
 }
 void substring(char stringa[], char ruolo[]){
