@@ -1,37 +1,4 @@
-<html>
-<head>
-<title>La mia prova con il C</title>
-
-<meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-</head>
-<body>
-<center>
-<div class="container">
-
-<form method="GET" action="../cgi-bin/script.py">
-	<h1>Selleziona il campo da stampare</h1><br>
-	<table>
-	<tr>
-	<td width="320px">
-		<select name="ruolo" class="form-control" style="width:300px;">
-			<option value="docente">Docente</option>
-			<option value="dirigente">Dirigente</option> 
-			<option value="studente" selected="selected">Studente</option>
-		</select>
-	</td>
-	<td>
-		<input type="submit" value="Invia!" class="btn btn-primary"/>
-	</td>
-	</tr>	
-	</table>
-</form>
-
-</div>
-</center>
-</body>
-</html>
+<html><head><title>LaPaginaPseudoDinamica</title></head><body><form name="frm"><center><h1>Selleziona il campo da stampare</h1><br><table><tr><td width="320px"><select name="sel" class="form-control" style="width:300px;" onchange="aggiornaHidden(this)"><option value="<h1>Docente</h1>Trotta	Francesco<br>Gabriele	Mario<br>Mescolini	Enrico<br>Risolo	Walter
+">Docente</option><option value="<h1>Dirigente</h1>Rita	Coccia<br>Germano	Mosconi<br>Nonno	Fiorucci<br>">Dirigente</option><option value="<h1>Studente</h1>Chinea	Nicola<br>Calosci	Matteo<br>Vescera	Nicolo<br>Sosti	Luca<br>Simonetti	Ciro
+" selected="selected">Studente</option></select></td><td></td></tr></table></form><SCRIPT type="text/javascript">
+function aggiornaHidden(sel){var f = document.frm;f.value = sel.options[sel.selectedIndex].value; ; document.write(f.value);}</SCRIPT></center></body></html>
