@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAXSTRLEN 50
+#define MAXSTRLEN 200
 #define FSTUDENTE "studente.txt"
 #define FDOCENTE "docente.txt"
 #define FDIRIGENTE "dirigente.txt"
@@ -12,39 +12,47 @@ void replace(char* stringa, char vecchio, char nuovo);
 
 int main(){
     
-    char *data; 
-    char stringa[MAXSTRLEN+1];
-    char ruolo[MAXSTRLEN+1];
-    char temp[MAXSTRLEN+1];
+    char studente[MAXSTRLEN+1];
+    char dirigente[MAXSTRLEN+1];
+    char docente[MAXSTRLEN+1];
     
-    FILE *puntafile;
     
+    FILE *puntafileDOCENTE;
+    puntafileDOCENTE = fopen("docente.txt","r");
+    fscanf(puntafileDOCENTE,"%s",docente);
+    replace(docente,'+',' ');
+    
+    FILE *puntafileDIRIGENTE;
+    puntafileDIRIGENTE = fopen("dirigente.txt","r");
+    fscanf(puntafileDIRIGENTE,"%s",dirigente);
+    replace(dirigente,'+',' ');
+    
+    FILE *puntafileSTUDENTE;
+    puntafileSTUDENTE = fopen("studente.txt","r");
+    fscanf(puntafileSTUDENTE,"%s",studente);
+    replace(studente,'+',' ');
+    
+    FILE *puntafileHTML;
+    puntafileHTML = fopen("index.html","w");
+    /*
     data = getenv("QUERY_STRING"); //il vaolore che viene passatro tramite un form risiede dentro ad una variabile d'ambiente chiamata QUERY_STRING
     sscanf(data,"%s",stringa);     // getenv permette di prendere quella variabile e restituisce un puntatore a char
     
     substring(stringa,ruolo);
- 
-    printf("Content-type:text\n\n");
-    printf("<html>\n");
-    printf("<body>\n");
-    printf("<center><h1>%s</h1><br>",ruolo);
+     */
+    //fprintf(puntafileHTML,"Content-type:text\n\n");
+    fprintf(puntafileHTML,"<html>\n");
+    fprintf(puntafileHTML,"<head><title>LaPaginaPseudodinamica</title></head>");
+    fprintf(puntafileHTML,"<body>\n");
+    //form
+    fprintf(puntafileHTML,"<form name=\"frm\"><center><h1>Seleziona il campo da stampare</h1><br><table><tr><td width=\"320px\"><select name=\"sel\" class=\"form-control\" style=\"width:300px;\" onchange=\"aggiornaHidden(this)\"><option value=\"\"  selected=\"selected\">Seleziona</option><option value=\"<h1>Docente</h1>%s\">Docente</option><option value=\"<h1>Dirigente</h1>%s\">Dirigente</option><option value=\"<h1>Studente</h1>%s\">Studente</option></select></td><td></td></tr></table></form>",docente,dirigente,studente);
+    //scriptJS
+    fprintf(puntafileHTML,"<SCRIPT type=\"text/javascript\">\nfunction aggiornaHidden(sel){var f = document.frm;f.value = sel.options[sel.selectedIndex].value; ; document.write(\"<center>\"+f.value+\"</center>\");}</SCRIPT>");
     
-    if(strcmp(ruolo,"studente")==0)
-       puntafile=fopen(FSTUDENTE,"r");
-    
-    if(strcmp(ruolo,"docente")==0)
-       puntafile=fopen(FDOCENTE,"r");
-    
-    if(strcmp(ruolo,"dirigente")==0)
-       puntafile=fopen(FDIRIGENTE,"r");
-    
-    fscanf(puntafile,"%s",temp);
-    replace(temp,'+',' ');
-    printf("%s",temp);
   
-    printf("</center></body>\n");
-    printf("</html>\n");
-    fclose(puntafile);
+    fprintf(puntafileHTML,"</center></body>\n");
+    fprintf(puntafileHTML,"</html>\n");
+    fclose(puntafileHTML);
 
 }
 void substring(char stringa[], char ruolo[]){
