@@ -19,7 +19,7 @@ docente = myfileDocente.read()
 studente = myfileStudente.read()
 
 
-myfileHTML.write("<form name=\"frm\"><center><h1>Selleziona il campo da stampare</h1><br><table><tr><td width=\"320px\"><select name=\"sel\" class=\"form-control\" style=\"width:300px;\" onchange=\"aggiornaHidden(this)\"><option value=\""+"<h1>Docente</h1>"+docente.replace("+","\t").replace("-","<br>")+"\">Docente</option><option value=\""+"<h1>Dirigente</h1>"+dirigente.replace("+","\t").replace("-","<br>")+"\">Dirigente</option><option value=\""+"<h1>Studente</h1>"+studente.replace("+","\t").replace("-","<br>")+"\" selected=\"selected\">Studente</option></select></td><td></td></tr></table></form>")
+myfileHTML.write("<form name=\"frm\"><center><h1>Selleziona il campo da stampare</h1><br><table><tr><td width=\"320px\"><select name=\"sel\" class=\"form-control\" style=\"width:300px;\" onchange=\"aggiornaHidden(this)\"><option value=\"\"  selected=\"selected\">Seleziona</option><option value=\""+"<h1>Docente</h1>"+docente.replace("+","\t").replace("-","<br>")+"\">Docente</option><option value=\""+"<h1>Dirigente</h1>"+dirigente.replace("+","\t").replace("-","<br>")+"\">Dirigente</option><option value=\""+"<h1>Studente</h1>"+studente.replace("+","\t").replace("-","<br>")+"\">Studente</option></select></td><td></td></tr></table></form>")
 
 myfileHTML.write("<SCRIPT type=\"text/javascript\">\nfunction aggiornaHidden(sel){var f = document.frm;f.value = sel.options[sel.selectedIndex].value; ; document.write(\"<center>\"+f.value+\"</center>\");}</SCRIPT>")
 
