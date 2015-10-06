@@ -9,7 +9,7 @@ else :
 stringa = raw_input("Inserisci il nome del file da creare (cone estensione): ")
 #print stringa
 ruoli = open("ruoli.txt","a")
-ruoli.write(stringa)
+ruoli.write("\n"+stringa)
 ruoli.close
 myfile = open(stringa,method)
 formattazione = raw_input("Che formato vuoi?\n[c]Formattazione C \t [py]Formattazione Pthon\n> ")
