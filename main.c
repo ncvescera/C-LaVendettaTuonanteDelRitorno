@@ -64,11 +64,10 @@ int main(){
     for(i=0;i<cont;i++)
         fprintf(puntafileHTML,"<option value=\"%s\">%s</option>",array[i].dati,array[i].ruolo);
     fprintf(puntafileHTML,"</select><textarea id=\"area\" rows=\"20\" cols=\"50\"></textarea> </td></tr></talbe></form> ");
-    //fprintf(puntafileHTML,"");
+    
     //scriptJS
     fprintf(puntafileHTML,"<SCRIPT type=\"text/javascript\">\nfunction changeTextarea(sel){var f = document.frm;f.value = sel.options[sel.selectedIndex].value; ;area.value=f.value;}</SCRIPT>");
-    //fprintf(puntafileHTML,"<SCRIPT type=\"text/javascript\">\nfunction aggiornaHidden(sel){var f = document.frm;f.value = sel.options[sel.selectedIndex].value; ; document.write(\"<center>\"+f.value+\"</center>\");}</SCRIPT>");
-    
+        
     fprintf(puntafileHTML,"</center></body>\n");
     fprintf(puntafileHTML,"</html>\n");
     
