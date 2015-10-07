@@ -45,6 +45,7 @@ int main(){
         puntafileTemp = fopen(array[i].ruolo,"r");
         fscanf(puntafileTemp,"%s",array[i].dati);
         replace(array[i].dati,'+',' ');
+        replace(array[i].dati,'-','\n');
         fclose(puntafileTemp);
         cont --;
         i++;
@@ -57,16 +58,17 @@ int main(){
     fprintf(puntafileHTML,"<head><title>LaPaginaPseudodinamica</title></head>");
     fprintf(puntafileHTML,"<body>\n");
     //form
-    fprintf(puntafileHTML,"<form name=\"frm\"><center><h1>Seleziona il campo da stampare</h1><br><table><tr><td width=\"320px\"><select name=\"sel\" class=\"form-control\" style=\"width:300px;\" onchange=\"aggiornaHidden(this)\"><option value=\"\"  selected=\"selected\">Seleziona</option>");
+    fprintf(puntafileHTML,"<form name=\"frm\"><center><h1>Seleziona il campo da stampare</h1><br><table><tr><td width=\"320px\"><select name=\"sel\" class=\"form-control\" style=\"width:373px;\" onchange=\"changeTextarea(this)\"><option value=\"\"  selected=\"selected\">Seleziona</option>");
     
     cont = i;
     for(i=0;i<cont;i++)
-        fprintf(puntafileHTML,"<option value=\"<h1>%s</h1>%s\">%s</option>",array[i].ruolo,array[i].dati,array[i].ruolo);
-    fprintf(puntafileHTML,"</select></td></tr></talbe></form>");
-    
+        fprintf(puntafileHTML,"<option value=\"%s\">%s</option>",array[i].dati,array[i].ruolo);
+    fprintf(puntafileHTML,"</select><textarea id=\"area\" rows=\"20\" cols=\"50\"></textarea> </td></tr></talbe></form> ");
+    //fprintf(puntafileHTML,"");
     //scriptJS
-    fprintf(puntafileHTML,"<SCRIPT type=\"text/javascript\">\nfunction aggiornaHidden(sel){var f = document.frm;f.value = sel.options[sel.selectedIndex].value; ; document.write(\"<center>\"+f.value+\"</center>\");}</SCRIPT>");
- 
+    fprintf(puntafileHTML,"<SCRIPT type=\"text/javascript\">\nfunction changeTextarea(sel){var f = document.frm;f.value = sel.options[sel.selectedIndex].value; ;area.value=f.value;}</SCRIPT>");
+    //fprintf(puntafileHTML,"<SCRIPT type=\"text/javascript\">\nfunction aggiornaHidden(sel){var f = document.frm;f.value = sel.options[sel.selectedIndex].value; ; document.write(\"<center>\"+f.value+\"</center>\");}</SCRIPT>");
+    
     fprintf(puntafileHTML,"</center></body>\n");
     fprintf(puntafileHTML,"</html>\n");
     
