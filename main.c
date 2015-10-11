@@ -84,26 +84,27 @@ int main(){
     fprintf(puntafileHTML,"<head><title>LaPaginaPseudodinamica</title></head>");
     fprintf(puntafileHTML,"<body>\n");
     //form
-    fprintf(puntafileHTML,"<form name=\"frm\"><center><h1>Seleziona il campo da stampare</h1><br><table><tr><td width=\"320px\"><select name=\"sel\" class=\"form-control\" style=\"width:373px;\" onchange=\"changeTextarea(this)\"><option value=\"\"  selected=\"selected\">Seleziona</option>");
+    fprintf(puntafileHTML,"<form name=\"frm\"><center>\n<h1>Seleziona il campo da stampare</h1><br>\n<table><tr><td width=\"320px\">\n<select id=\"select\" name=\"sel\" class=\"form-control\" style=\"width:373px;\" autofocus onchange=\"printNames()\">\n\t<option value=\"\"  selected=\"selected\">Seleziona</option>\n");
     
+    //scrive le varie option 
     cont = i;
     for(i=0;i<cont;i++){
-        fprintf(puntafileHTML,"<option value=\"");
+        fprintf(puntafileHTML,"\t<option value=\'[");
         k = array[i].elementi[i].lunghezza;
         j = 0;
-        while(k){
-            fprintf(puntafileHTML,"%s ",array[i].elementi[j].studente);
+        while(k-1){
+            fprintf(puntafileHTML,"\"%s\",",array[i].elementi[j].studente);
             k--;
             j++;
         }
-        fprintf(puntafileHTML,"\">%s</option>",array[i].ruolo);
+        fprintf(puntafileHTML,"]\'>%s</option>\n",array[i].ruolo);
     }
-    fprintf(puntafileHTML,"</select><textarea id=\"area\" rows=\"20\" cols=\"50\"></textarea> </td></tr></talbe></form> ");
+    fprintf(puntafileHTML,"</select>\n</td>\n</tr>\n</table>\n</center>\n</form> ");
     
     //scriptJS
-    fprintf(puntafileHTML,"<SCRIPT type=\"text/javascript\">\nfunction changeTextarea(sel){var f = document.frm;f.value = sel.options[sel.selectedIndex].value; ;area.value=f.value;}</SCRIPT>");
-        
-    fprintf(puntafileHTML,"</center></body>\n");
+    fprintf(puntafileHTML,"<SCRIPT type=\"text/javascript\">\nfunction printNames(){\nvar e = document.getElementById(\'select\');\nvar array = JSON.parse(e.options[e.selectedIndex].value);\narray = array.sort();\nvar i = 0;document.getElementById(\'prova\').innerHTML = \"\";\nfor(i=0;i<array.length;i++){document.getElementById(\'prova\').innerHTML += array[i]+\"<br>\";}\n}\n</SCRIPT>\n");
+    fprintf(puntafileHTML,"<div id=\"prova\"></div>"); 
+    fprintf(puntafileHTML,"</body>\n");
     fprintf(puntafileHTML,"</html>\n");
     
     fclose(puntafileHTML);
