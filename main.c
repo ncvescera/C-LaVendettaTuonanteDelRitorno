@@ -84,7 +84,12 @@ int main(){
     fprintf(puntafileHTML,"<head><title>LaPaginaPseudodinamica</title></head>");
     fprintf(puntafileHTML,"<body>\n");
     //form
-    fprintf(puntafileHTML,"<center><form name=\"frm\">\n<h1>Seleziona il campo da stampare</h1><br>\n<table><tr><td width=\"320px\">\n<select id=\"select\" name=\"sel\" class=\"form-control\" style=\"width:373px;\" autofocus onchange=\"printNames()\">\n\t<option value=\"\"  selected=\"selected\">Seleziona</option>\n");
+    fprintf(puntafileHTML,"<center>"
+                          "<form name=\"frm\">\n"
+                          "<h1>Seleziona il campo da stampare</h1><br>\n"
+                          "<table><tr><td width=\"320px\">\n"
+                          "<select id=\"select\" name=\"sel\" class=\"form-control\" style=\"width:373px;\" autofocus onchange=\"printNames()\">\n"
+                          "\t<option value=\"\"  selected=\"selected\">Seleziona</option>\n");
     
     //scrive le varie option 
     cont = i;
@@ -103,7 +108,17 @@ int main(){
     fprintf(puntafileHTML,"</select>\n</td>\n</tr>\n</table>\n</form> ");
     
     //scriptJS
-    fprintf(puntafileHTML,"<SCRIPT type=\"text/javascript\">\nfunction printNames(){\nvar e = document.getElementById(\'select\');\nvar array = JSON.parse(e.options[e.selectedIndex].value);\nvar ruolo = e.options[e.selectedIndex].text;\narray = array.sort();\nvar i = 0;document.getElementById(\'prova\').innerHTML = \"\";\ndocument.getElementById(\'prova\').innerHTML=\"<h1>\"+ruolo+\"</h1>\";\nfor(i=0;i<array.length;i++){document.getElementById(\'prova\').innerHTML += array[i]+\"<br>\";}\n}\n</SCRIPT>\n");
+    fprintf(puntafileHTML,"<SCRIPT type=\"text/javascript\">\n"
+                          "function printNames(){\n"
+                          "var e = document.getElementById(\'select\');\n"
+                          "var array = JSON.parse(e.options[e.selectedIndex].value);\n"
+                          "var ruolo = e.options[e.selectedIndex].text;\n"
+                          "ruolo = ruolo.substring(0,ruolo.indexOf(\".\"));\n"
+                          "array = array.sort();\n"
+                          "var i = 0;document.getElementById(\'prova\').innerHTML = \"\";\n"
+                          "document.getElementById(\'prova\').innerHTML=\"<h1>\"+ruolo+\"</h1>\";\n"
+                          "for(i=0;i<array.length;i++){document.getElementById(\'prova\').innerHTML += array[i]+\"<br>\";}\n}\n"
+                          "</SCRIPT>\n");
     fprintf(puntafileHTML,"<div id=\"prova\"></div></center>"); 
     fprintf(puntafileHTML,"</body>\n");
     fprintf(puntafileHTML,"</html>\n");
