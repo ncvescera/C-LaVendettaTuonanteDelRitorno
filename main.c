@@ -107,7 +107,7 @@ int main(){
     j=0;
     i=0;
     fprintf(puntafileHTML,"\t<option value=\'[");
-    fprintf(puntafileHTML,"\"%s\",",array[i].persona);
+    fprintf(puntafileHTML,"\"%s\"",array[i].persona);
     for(i=1;i<cont;i++){
         if(strcmp(array[i-1].ruolo,array[i].ruolo)!=0){
             fprintf(puntafileHTML,"]\'>%s</option>\n",array[i-1].ruolo);
@@ -116,9 +116,11 @@ int main(){
         //strcpy(temp,array[i].ruolo);
         //j=0;
         //while(strcmp(array[j].ruolo,array[j+1].ruolo)==0){
-        fprintf(puntafileHTML,"\"%s\",",array[i].persona);
+        if(strcmp(array[i-1].ruolo,array[i].ruolo)!=0)
+        fprintf(puntafileHTML,"\"%s\"",array[i].persona);
            // j++;
-           
+        else
+        fprintf(puntafileHTML,",\"%s\"",array[i].persona);   
         //}
         
         //fprintf(puntafileHTML,"\"%s\"",array[i].persona);
