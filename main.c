@@ -110,7 +110,7 @@ int main(){
     fprintf(puntafileHTML,"\"%s\",",array[i].persona);
     for(i=1;i<cont;i++){
         if(strcmp(array[i-1].ruolo,array[i].ruolo)!=0){
-            fprintf(puntafileHTML,"]\'>%s</option>\n",array[i].ruolo);
+            fprintf(puntafileHTML,"]\'>%s</option>\n",array[i-1].ruolo);
             fprintf(puntafileHTML,"\t<option value=\'[");
         }
         //strcpy(temp,array[i].ruolo);
@@ -126,7 +126,7 @@ int main(){
             
         
     }
-    fprintf(puntafileHTML,"]\'>%s</option>\n",array[i].ruolo);
+    fprintf(puntafileHTML,"]\'>%s</option>\n",array[i-1].ruolo);
     fprintf(puntafileHTML,"</select>\n</td>\n</tr>\n</table>\n</form> ");
     
     //scriptJS
