@@ -1,0 +1,11 @@
+chinea+nicola-studente
+francesco+corbucci-studente
+ciro+simonetti-studente
+francesco+trotta-docente
+paolo+testi-docente
+niocla+malfagia-studente
+nonno+fiorucci-dirigente
+simone+casucci-docente
+germano+mosconi-dirigente
+maria+delicati-docente
+rita+coccia-dirigente
