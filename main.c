@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define MAXSTRLENRUOLO 30
-#define MAXSTRLEN 200
+#define MAXSTRLEN 20
 
 struct s_dati{
     char studente[MAXSTRLENRUOLO+1];
@@ -14,10 +14,12 @@ typedef struct s_dati dati;
 struct s_record{
     char ruolo[MAXSTRLENRUOLO+1];
     dati elementi[MAXSTRLEN+1];
+    char persona[MAXSTRLEN+1];
 };
 typedef struct s_record record;
 
 void replace(char* stringa, char vecchio, char nuovo);
+void ordinaDati(record *dato, int dim);
 
 int main(){
     
@@ -26,27 +28,35 @@ int main(){
     int cont;
     char temp[MAXSTRLEN];
     record *array;
-    FILE *puntafileRuoli;
+    FILE *puntafileDati;
     FILE *puntafileTemp;
     
-    puntafileRuoli = fopen("ruoli.txt","r");
-    while(!feof(puntafileRuoli)){
-        fgets(temp,MAXSTRLENRUOLO+1,puntafileRuoli); //legge riga per riga e conta le righe
+    puntafileDati = fopen("dati.txt","r");
+    while(!feof(puntafileDati)){
+        fgets(temp,MAXSTRLENRUOLO+1,puntafileDati); //legge riga per riga e conta le righe
         i++;
     }
     
     array = (record*)malloc(i*sizeof(record)); //dichiaro l'arrey dinamico di record
     
-    fseek(puntafileRuoli,0,SEEK_SET); //si scosta di 0 pisizioni dall'inizio del file (SEEK_SET è l'inizio del file)
+    fseek(puntafileDati,0,SEEK_SET); //si scosta di 0 pisizioni dall'inizio del file (SEEK_SET è l'inizio del file)
     
     i=0;
-    while(!feof(puntafileRuoli)){
-        fscanf(puntafileRuoli,"%s\n",array[i].ruolo);
+    while(!feof(puntafileDati)){
+        fscanf(puntafileDati,"%[^-]-%s\n",array[i].persona,array[i].ruolo);
+        replace(array[i].persona,'+',' ');
         i++;
     }
-    
     cont = i;
-    i = 0;
+    k = i;
+    ordinaDati(array,cont);
+    
+    for(i=0;i<cont;i++){
+        printf("%s-%s\n",array[i].persona,array[i].ruolo);
+    }
+    
+    
+    /*i = 0;
     while(cont>0){
         strcat(array[i].ruolo,".txt");
         puntafileTemp = fopen(array[i].ruolo,"r");
@@ -75,6 +85,7 @@ int main(){
         }
         
     }*/
+    
     int j;
      
     FILE *puntafileHTML;
@@ -92,19 +103,30 @@ int main(){
                           "\t<option value=\"\"  selected=\"selected\">Seleziona</option>\n");
     
     //scrive le varie option 
-    cont = i;
-    for(i=0;i<cont;i++){
-        fprintf(puntafileHTML,"\t<option value=\'[");
-        k = array[i].elementi[i].lunghezza;
-        j = 0;
-        while(k-2){
-            fprintf(puntafileHTML,"\"%s\",",array[i].elementi[j].studente);
-            k--;
-            j++;
+    cont = k;
+    j=0;
+    i=0;
+    fprintf(puntafileHTML,"\t<option value=\'[");
+    fprintf(puntafileHTML,"\"%s\",",array[i].persona);
+    for(i=1;i<cont;i++){
+        if(strcmp(array[i-1].ruolo,array[i].ruolo)!=0){
+            fprintf(puntafileHTML,"]\'>%s</option>\n",array[i].ruolo);
+            fprintf(puntafileHTML,"\t<option value=\'[");
         }
-        fprintf(puntafileHTML,"\"%s\"",array[i].elementi[j].studente);
-        fprintf(puntafileHTML,"]\'>%s</option>\n",array[i].ruolo);
+        //strcpy(temp,array[i].ruolo);
+        //j=0;
+        //while(strcmp(array[j].ruolo,array[j+1].ruolo)==0){
+        fprintf(puntafileHTML,"\"%s\",",array[i].persona);
+           // j++;
+           
+        //}
+        
+        //fprintf(puntafileHTML,"\"%s\"",array[i].persona);
+       //if(strcmp(array[i].ruolo,array[i+1].ruolo)!=0)
+            
+        
     }
+    fprintf(puntafileHTML,"]\'>%s</option>\n",array[i].ruolo);
     fprintf(puntafileHTML,"</select>\n</td>\n</tr>\n</table>\n</form> ");
     
     //scriptJS
@@ -133,4 +155,18 @@ void replace(char* stringa, char vecchio, char nuovo){
         if(stringa[i]==vecchio)
             stringa[i]=nuovo;
   }
+}
+void ordinaDati(record *dato, int dim){
+    int i,j;
+    record temp;
+    
+    for(i=0;i<dim-1;i++){
+        for(j=0;j<dim-1;j++){
+            if((strcmp(dato[j].ruolo,dato[j+1].ruolo)) > 0){
+                temp=dato[j];
+                dato[j]=dato[j+1];
+                dato[j+1]=temp;
+            }
+        }
+    }
 }

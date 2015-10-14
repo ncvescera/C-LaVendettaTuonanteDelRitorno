@@ -1,26 +1,28 @@
 <html>
 <head><title>LaPaginaPseudodinamica</title></head><body>
-<form name="frm"><center>
+<center><form name="frm">
 <h1>Seleziona il campo da stampare</h1><br>
 <table><tr><td width="320px">
 <select id="select" name="sel" class="form-control" style="width:373px;" autofocus onchange="printNames()">
 	<option value=""  selected="selected">Seleziona</option>
-	<option value='["Rita Coccia","Germano Mosconi","Nonno Fiorucci",]'>dirigente.txt</option>
-	<option value='["Trotta Francesco","Gabriele Mario","Mescolini Enrico","Risolo Walter",]'>docente.txt</option>
-	<option value='["Chinea Nicola","Calosci Matteo","Vescera Nicolo","Sosti Luca","Simonetti Ciro",]'>studente.txt</option>
+	<option value='["nonno fiorucci","germano mosconi",]'>docente</option>
+	<option value='["francesco trotta","paolo testi","simone casucci","maria delicati",]'>studente</option>
+	<option value='["chinea nicola","francesco corbucci","ciro simonetti","niocla malfagia",]'></option>
 </select>
 </td>
 </tr>
 </table>
-</center>
 </form> <SCRIPT type="text/javascript">
 function printNames(){
 var e = document.getElementById('select');
 var array = JSON.parse(e.options[e.selectedIndex].value);
+var ruolo = e.options[e.selectedIndex].text;
+ruolo = ruolo.substring(0,ruolo.indexOf("."));
 array = array.sort();
 var i = 0;document.getElementById('prova').innerHTML = "";
+document.getElementById('prova').innerHTML="<h1>"+ruolo+"</h1>";
 for(i=0;i<array.length;i++){document.getElementById('prova').innerHTML += array[i]+"<br>";}
 }
 </SCRIPT>
-<div id="prova"></div></body>
+<div id="prova"></div></center></body>
 </html>
