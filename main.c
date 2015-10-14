@@ -137,7 +137,6 @@ int main(){
                           "var e = document.getElementById(\'select\');\n"
                           "var array = JSON.parse(e.options[e.selectedIndex].value);\n"
                           "var ruolo = e.options[e.selectedIndex].text;\n"
-                          "ruolo = ruolo.substring(0,ruolo.indexOf(\".\"));\n"
                           "array = array.sort();\n"
                           "var i = 0;document.getElementById(\'prova\').innerHTML = \"\";\n"
                           "document.getElementById(\'prova\').innerHTML=\"<h1>\"+ruolo+\"</h1>\";\n"

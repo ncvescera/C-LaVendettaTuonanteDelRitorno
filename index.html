@@ -17,7 +17,6 @@ function printNames(){
 var e = document.getElementById('select');
 var array = JSON.parse(e.options[e.selectedIndex].value);
 var ruolo = e.options[e.selectedIndex].text;
-ruolo = ruolo.substring(0,ruolo.indexOf("."));
 array = array.sort();
 var i = 0;document.getElementById('prova').innerHTML = "";
 document.getElementById('prova').innerHTML="<h1>"+ruolo+"</h1>";
