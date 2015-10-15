@@ -17,3 +17,9 @@ Questo codice C preleva i dati dal file dati.txt, li ordina per ruolo, li format
 * Utilizzare JS nel modo corretto
 * Utilizzare l'array di record nel modo giusto per poter stampare le option
 
+## Perchè solo 2 funzioni ?
+Non ritengo utile creare delle funzioni per poter stampare una pecifica pagina html su file o uno script JS, quindi le uniche 2 fnzioni veramente utili che si possono utilizzare sono:
+* `void ordinaDati(record *dato, int dim)` che può essere riadattata per ogni tipo di dato
+* `void replace(char* stringa, char vecchio, char nuovo)` anchessa riadattabile per tutte le stringhe
+
+
