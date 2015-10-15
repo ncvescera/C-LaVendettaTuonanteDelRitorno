@@ -2,18 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAXSTRLENRUOLO 30
-#define MAXSTRLEN 20
+#define MAXSTRLEN 30
 
-struct s_dati{
-    char studente[MAXSTRLENRUOLO+1];
-    int lunghezza;
-};
-typedef struct s_dati dati;
 
 struct s_record{
-    char ruolo[MAXSTRLENRUOLO+1];
-    dati elementi[MAXSTRLEN+1];
+    char ruolo[MAXSTRLEN+1];
     char persona[MAXSTRLEN+1];
 };
 typedef struct s_record record;
@@ -24,16 +17,15 @@ void ordinaDati(record *dato, int dim);
 int main(){
     
     int i = 0;
-    int k = 0;
+    //int k = 0; in caso di necessità
     int cont;
     char temp[MAXSTRLEN];
     record *array;
     FILE *puntafileDati;
-    FILE *puntafileTemp;
     
     puntafileDati = fopen("dati.txt","r");
     while(!feof(puntafileDati)){
-        fgets(temp,MAXSTRLENRUOLO+1,puntafileDati); //legge riga per riga e conta le righe
+        fgets(temp,MAXSTRLEN+1,puntafileDati); //legge riga per riga e conta le righe
         i++;
     }
     
@@ -43,93 +35,53 @@ int main(){
     
     i=0;
     while(!feof(puntafileDati)){
-        fscanf(puntafileDati,"%[^-]-%s\n",array[i].persona,array[i].ruolo);
-        replace(array[i].persona,'+',' ');
+        fscanf(puntafileDati,"%[^-]-%s\n",array[i].persona,array[i].ruolo); //scanset: divide la stringa in 2 parti, la parte prima del - la mette in persona 
+        replace(array[i].persona,'+',' ');                                  //e quella dopo in ruolo
         i++;
     }
     cont = i;
-    k = i;
+    
     ordinaDati(array,cont);
     
+    /* in caso di necessità
     for(i=0;i<cont;i++){
         printf("%s-%s\n",array[i].persona,array[i].ruolo);
     }
-    
-    
-    /*i = 0;
-    while(cont>0){
-        strcat(array[i].ruolo,".txt");
-        puntafileTemp = fopen(array[i].ruolo,"r");
-        k = 0;
-        while(!feof(puntafileTemp)){
-            fscanf(puntafileTemp,"%s",array[i].elementi[k].studente);
-            replace(array[i].elementi[k].studente,'+',' ');
-            k++;
-        }
-        array[i].elementi[i].lunghezza = k;
-        //replace(array[i].dati,'-','\n');
-        fclose(puntafileTemp);
-        cont --;
-        i++;
-    }
-    /*
-    int j;
-    cont = i;
-    for(i=0;i<cont;i++){
-        k = array[i].elementi[i].lunghezza;
-        j = 0;
-        while(k){
-            printf("%s\n",array[i].elementi[j].studente);
-            k--;
-            j++;
-        }
-        
-    }*/
-    
-    int j;
+    */
      
     FILE *puntafileHTML;
     puntafileHTML = fopen("index.html","w");
     
     fprintf(puntafileHTML,"<html>\n");
-    fprintf(puntafileHTML,"<head><title>LaPaginaPseudodinamica</title></head>");
+    fprintf(puntafileHTML,"<head>\n\t<title>LaPaginaPseudodinamica</title></head>\n");
     fprintf(puntafileHTML,"<body>\n");
+    
     //form
-    fprintf(puntafileHTML,"<center>"
-                          "<form name=\"frm\">\n"
-                          "<h1>Seleziona il campo da stampare</h1><br>\n"
-                          "<table><tr><td width=\"320px\">\n"
-                          "<select id=\"select\" name=\"sel\" class=\"form-control\" style=\"width:373px;\" autofocus onchange=\"printNames()\">\n"
-                          "\t<option value=\"\"  selected=\"selected\">Seleziona</option>\n");
+    fprintf(puntafileHTML,"<center>\n"
+                          "\t<h1>Seleziona il campo da stampare</h1><br>\n"
+                          "\t<table>\n\t\t<tr>\n\t\t<td width=\"320px\">\n"
+                          "\t\t\t<select id=\"select\" name=\"sel\" class=\"form-control\" style=\"width:373px;\" autofocus onchange=\"printNames()\">\n"
+                          "\t\t\t\t<option value=\"\"  selected=\"selected\">Seleziona</option>\n");
     
     //scrive le varie option 
-    cont = k;
-    j=0;
+    cont = i;
     i=0;
-    fprintf(puntafileHTML,"\t<option value=\'[");
+    fprintf(puntafileHTML,"\t\t\t\t<option value=\'[");
     fprintf(puntafileHTML,"\"%s\"",array[i].persona);
     for(i=1;i<cont;i++){
         if(strcmp(array[i-1].ruolo,array[i].ruolo)!=0){
             fprintf(puntafileHTML,"]\'>%s</option>\n",array[i-1].ruolo);
-            fprintf(puntafileHTML,"\t<option value=\'[");
+            fprintf(puntafileHTML,"\t\t\t\t<option value=\'[");
         }
-        //strcpy(temp,array[i].ruolo);
-        //j=0;
-        //while(strcmp(array[j].ruolo,array[j+1].ruolo)==0){
         if(strcmp(array[i-1].ruolo,array[i].ruolo)!=0)
         fprintf(puntafileHTML,"\"%s\"",array[i].persona);
-           // j++;
+
         else
-        fprintf(puntafileHTML,",\"%s\"",array[i].persona);   
-        //}
-        
-        //fprintf(puntafileHTML,"\"%s\"",array[i].persona);
-       //if(strcmp(array[i].ruolo,array[i+1].ruolo)!=0)
-            
-        
+        fprintf(puntafileHTML,",\"%s\"",array[i].persona);    
     }
+    
     fprintf(puntafileHTML,"]\'>%s</option>\n",array[i-1].ruolo);
-    fprintf(puntafileHTML,"</select>\n</td>\n</tr>\n</table>\n</form> ");
+    fprintf(puntafileHTML,"\t\t\t</select>\n\t\t</td>\n\t\t</tr>\n\t</table>\n");
     
     //scriptJS
     fprintf(puntafileHTML,"<SCRIPT type=\"text/javascript\">\n"
@@ -139,10 +91,10 @@ int main(){
                           "var ruolo = e.options[e.selectedIndex].text;\n"
                           "array = array.sort();\n"
                           "var i = 0;document.getElementById(\'prova\').innerHTML = \"\";\n"
-                          "document.getElementById(\'prova\').innerHTML=\"<h1>\"+ruolo+\"</h1>\";\n"
+                          "document.getElementById(\'prova\').innerHTML=\"<h2>\"+ruolo+\"</h2>\";\n"
                           "for(i=0;i<array.length;i++){document.getElementById(\'prova\').innerHTML += array[i]+\"<br>\";}\n}\n"
                           "</SCRIPT>\n");
-    fprintf(puntafileHTML,"<div id=\"prova\"></div></center>"); 
+    fprintf(puntafileHTML,"\t<div id=\"prova\"></div>\n</center>\n"); 
     fprintf(puntafileHTML,"</body>\n");
     fprintf(puntafileHTML,"</html>\n");
     
