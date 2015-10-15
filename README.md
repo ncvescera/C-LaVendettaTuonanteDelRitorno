@@ -12,3 +12,8 @@ Questo codice C preleva i dati dal file dati.txt, li ordina per ruolo, li format
 * Chiusura del file index.html
 * FINE
 
+## Principali difficoltà
+* Formattare i dati in Json (Maledette virgole !)
+* Utilizzare JS nel modo corretto
+* Utilizzare l'array di record nel modo giusto per poter stampare le option
+
