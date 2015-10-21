@@ -70,11 +70,11 @@ int main(){
                           "\t\t\t<select id=\"select\" name=\"sel\" class=\"form-control\" style=\"width:373px;\" autofocus onchange=\"printNames()\">\n"
                           "\t\t\t\t<option value=\"\"  selected=\"selected\">Seleziona</option>\n");
     
-    //scrive le varie option 
-    strings ruoli[5];
-    lenghtRuoli=0;
+    //scrive le varie option e conta i ruoli
+    strings ruoli[cont];
+    lenghtRuoli = 0;
     cont = i;
-    i=0;
+    i = 0;
     fprintf(puntafileHTML,"\t\t\t\t<option value=\'[");
     fprintf(puntafileHTML,"\"%s\"",array[i].persona);
     for(i=1;i<cont;i++){
@@ -100,7 +100,7 @@ int main(){
     
     fprintf(puntafileHTML,"\t\t\t</select>\n\t\t</td>\n\t\n<td><button id=\"bottone\" type=\"button\" onclick=\"riduci()\">↑</button></td></tr>\n\t</table>\n");
     
-    //scriptJS
+    //scriptJS-stampaDati
     fprintf(puntafileHTML,"<SCRIPT type=\"text/javascript\">\n"
                           "function printNames(){\n"
                           "var e = document.getElementById(\'select\');\n"
@@ -120,33 +120,33 @@ int main(){
                           "document.getElementById(\"nomi\").style.display = \"none\";\n"
                           "document.getElementById(\"bottone\").textContent = \"↓\";}}\n"
                           "</SCRIPT>\n");
-    fprintf(puntafileHTML,"<table>\n"
+    
+    //tabella ruoli-grafico
+    fprintf(puntafileHTML,"<br><table width=1500px>\n"
                           "<tr>\n"
-                          "<td width=\"340px\">\n"
+                          "<td width=\"50%\" style=\"border-right: 1px solid black;padding-left:30em;\">\n"
                           "<div id=\"titolo\"></div>\n"
                           "<div id=\"nomi\"></div>\n"
                           "</td>\n"
-                          "<td>\n"
-                          "<canvas id=\"barre\" width=\"400px\" height=\"400px\"></canvas>\n"
+                          "<td width=\"50%\" style=\"padding-left:4em;\">\n"
+                          "<canvas id=\"barre\" width=\"500px\" height=\"400px\"></canvas>\n"
                           "</td>\n"
                           "</tr>\n"
                           "</table>\n");
     fprintf(puntafileHTML,"</center>\n"); 
     
-    
+    //scriptJS-crea grfico
     fprintf(puntafileHTML,"<script>\n"
                           "var datiSerie = {\n"
                           "labels : [");
     
-    fseek(puntafileDati,0,SEEK_SET);
-    
     for(i=0;i<lenghtRuoli;i++)
-        ruoli[i].lunghezza = 0;
+        ruoli[i].lunghezza = 0; //lunghezza deve essere inizializzato a 0 dato che nella dichiarazione del record non posso mettere = 0;
     
     for(i=0;i<lenghtRuoli;i++){
         for(k=0;k<cont;k++){
-            if((strcmp(ruoli[i].s,array[k].ruolo))==0)
-                ruoli[i].lunghezza ++;
+            if((strcmp(ruoli[i].s,array[k].ruolo))==0) 
+                ruoli[i].lunghezza ++;                  //conta quante persone appartengono ad un ruolo
         }
     }
     
@@ -167,6 +167,7 @@ int main(){
 				"pointHighlightFill: \"#fff\",\n"
 				"pointHighlightStroke: \"rgba((220,0,220,1)\",\n"
 				"data : [");
+    
     fprintf(puntafileHTML,"%d",ruoli[0].lunghezza);
     for(i=1;i<lenghtRuoli;i++)
         fprintf(puntafileHTML,",%d",ruoli[i].lunghezza);
@@ -179,14 +180,12 @@ int main(){
     fprintf(puntafileHTML,"new Chart(barre).Bar(datiSerie);\n");   // Crea il grafico
     fprintf(puntafileHTML,"</script>\n");  
     
-    /*for(i=0;i<lenght;i++){
-        printf("%s ",ruoli[i].s);
-    }*/
-    
     fprintf(puntafileHTML,"</body>\n");
     fprintf(puntafileHTML,"</html>\n");
     
+    fclose(puntafileDati);
     fclose(puntafileHTML);
+    
     return(EXIT_SUCCESS);
 }
 
