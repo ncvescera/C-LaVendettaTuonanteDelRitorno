@@ -1,6 +1,8 @@
 <html>
 <head>
-	<title>LaPaginaPseudodinamica</title></head>
+	<title>LaPaginaPseudodinamica</title>
+<meta charset="UTF-8">
+<script src="Chart.js-master/Chart.min.js"></script></head>
 <body>
 <center>
 	<h1>Seleziona il campo da stampare</h1><br>
@@ -14,7 +16,8 @@
 				<option value='["chinea nicola","francesco corbucci","ciro simonetti","niocla malfagia"]'>studente</option>
 			</select>
 		</td>
-		</tr>
+	
+<td><button id="bottone" type="button" onclick="riduci()">↑</button></td></tr>
 	</table>
 <SCRIPT type="text/javascript">
 function printNames(){
@@ -22,12 +25,52 @@ var e = document.getElementById('select');
 var array = JSON.parse(e.options[e.selectedIndex].value);
 var ruolo = e.options[e.selectedIndex].text;
 array = array.sort();
-var i = 0;document.getElementById('prova').innerHTML = "";
-document.getElementById('prova').innerHTML="<h2>"+ruolo+"</h2>";
-for(i=0;i<array.length;i++){document.getElementById('prova').innerHTML += array[i]+"<br>";}
+var i = 0;document.getElementById('titolo').innerHTML = "";
+document.getElementById('nomi').innerHTML = "";
+document.getElementById('titolo').innerHTML="<h2>"+ruolo+"</h2>";
+for(i=0;i<array.length;i++){document.getElementById('nomi').innerHTML += array[i]+"<br>";}
 }
+
+function riduci(){
+if(document.getElementById("nomi").style.display == "none"){
+document.getElementById("nomi").style.display = "block";
+document.getElementById("bottone").textContent = "↑";
+}
+else {
+document.getElementById("nomi").style.display = "none";
+document.getElementById("bottone").textContent = "↓";}}
 </SCRIPT>
-	<div id="prova"></div>
+<table>
+<tr>
+<td width="340px">
+<div id="titolo"></div>
+<div id="nomi"></div>
+</td>
+<td>
+<canvas id="barre" width="400px" height="400px"></canvas>
+</td>
+</tr>
+</table>
 </center>
+<script>
+var datiSerie = {
+labels : ["dirigente","docente","studente"],
+datasets : [
+{
+fillColor : "rgba(220,0,220,0.5)",
+strokeColor : "rgba(220,0,220,0.8)",
+highlightFill: "rgba(220,0,220,0.75)",
+highlightStroke: "rgba(220,0,220,1)",
+pointColor: "rgba(220,0,220,.8)",
+pointStrokeColor: "#fff",
+pointHighlightFill: "#fff",
+pointHighlightStroke: "rgba((220,0,220,1)",
+data : [3,4,4]
+}
+]
+};
+var barre = document.getElementById("barre").getContext("2d");
+new Chart(barre).Bar(datiSerie);
+</script>
 </body>
 </html>

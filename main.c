@@ -4,7 +4,11 @@
 
 #define MAXSTRLEN 30
 
-
+struct s_strings{
+    char s[MAXSTRLEN+1];
+    int lunghezza;
+};
+typedef struct s_strings strings;
 struct s_record{
     char ruolo[MAXSTRLEN+1];
     char persona[MAXSTRLEN+1];
@@ -16,8 +20,9 @@ void ordinaDati(record *dato, int dim);
 
 int main(){
     
+    int k;
     int i = 0;
-    //int k = 0; in caso di necessità
+    int lenghtRuoli = 0; //in caso di necessità
     int cont;
     char temp[MAXSTRLEN];
     record *array;
@@ -53,10 +58,12 @@ int main(){
     puntafileHTML = fopen("index.html","w");
     
     fprintf(puntafileHTML,"<html>\n");
-    fprintf(puntafileHTML,"<head>\n\t<title>LaPaginaPseudodinamica</title></head>\n");
+    fprintf(puntafileHTML,"<head>\n\t<title>LaPaginaPseudodinamica</title>\n");
+    fprintf(puntafileHTML,"<meta charset=\"UTF-8\">\n");
+    fprintf(puntafileHTML,"<script src=\"Chart.js-master/Chart.min.js\"></script></head>\n");
     fprintf(puntafileHTML,"<body>\n");
     
-    //form
+    //select
     fprintf(puntafileHTML,"<center>\n"
                           "\t<h1>Seleziona il campo da stampare</h1><br>\n"
                           "\t<table>\n\t\t<tr>\n\t\t<td width=\"320px\">\n"
@@ -64,6 +71,8 @@ int main(){
                           "\t\t\t\t<option value=\"\"  selected=\"selected\">Seleziona</option>\n");
     
     //scrive le varie option 
+    strings ruoli[5];
+    lenghtRuoli=0;
     cont = i;
     i=0;
     fprintf(puntafileHTML,"\t\t\t\t<option value=\'[");
@@ -72,6 +81,10 @@ int main(){
         if(strcmp(array[i-1].ruolo,array[i].ruolo)!=0){
             fprintf(puntafileHTML,"]\'>%s</option>\n",array[i-1].ruolo);
             fprintf(puntafileHTML,"\t\t\t\t<option value=\'[");
+            
+            strcpy(ruoli[lenghtRuoli].s, array[i-1].ruolo);
+            lenghtRuoli++;
+            
         }
         if(strcmp(array[i-1].ruolo,array[i].ruolo)!=0)
         fprintf(puntafileHTML,"\"%s\"",array[i].persona);
@@ -81,7 +94,11 @@ int main(){
     }
     
     fprintf(puntafileHTML,"]\'>%s</option>\n",array[i-1].ruolo);
-    fprintf(puntafileHTML,"\t\t\t</select>\n\t\t</td>\n\t\t</tr>\n\t</table>\n");
+    
+    strcpy(ruoli[lenghtRuoli].s, array[i-1].ruolo);
+    lenghtRuoli++;
+    
+    fprintf(puntafileHTML,"\t\t\t</select>\n\t\t</td>\n\t\n<td><button id=\"bottone\" type=\"button\" onclick=\"riduci()\">↑</button></td></tr>\n\t</table>\n");
     
     //scriptJS
     fprintf(puntafileHTML,"<SCRIPT type=\"text/javascript\">\n"
@@ -90,11 +107,82 @@ int main(){
                           "var array = JSON.parse(e.options[e.selectedIndex].value);\n"
                           "var ruolo = e.options[e.selectedIndex].text;\n"
                           "array = array.sort();\n"
-                          "var i = 0;document.getElementById(\'prova\').innerHTML = \"\";\n"
-                          "document.getElementById(\'prova\').innerHTML=\"<h2>\"+ruolo+\"</h2>\";\n"
-                          "for(i=0;i<array.length;i++){document.getElementById(\'prova\').innerHTML += array[i]+\"<br>\";}\n}\n"
+                          "var i = 0;document.getElementById(\'titolo\').innerHTML = \"\";\n"
+                          "document.getElementById('nomi').innerHTML = \"\";\n"
+                          "document.getElementById(\'titolo\').innerHTML=\"<h2>\"+ruolo+\"</h2>\";\n"
+                          "for(i=0;i<array.length;i++){document.getElementById(\'nomi\').innerHTML += array[i]+\"<br>\";}\n}\n\n"
+                          "function riduci(){\n"
+                          "if(document.getElementById(\"nomi\").style.display == \"none\"){\n"
+                          "document.getElementById(\"nomi\").style.display = \"block\";\n"
+                          "document.getElementById(\"bottone\").textContent = \"↑\";\n"
+                          "}\n"
+                          "else {\n"
+                          "document.getElementById(\"nomi\").style.display = \"none\";\n"
+                          "document.getElementById(\"bottone\").textContent = \"↓\";}}\n"
                           "</SCRIPT>\n");
-    fprintf(puntafileHTML,"\t<div id=\"prova\"></div>\n</center>\n"); 
+    fprintf(puntafileHTML,"<table>\n"
+                          "<tr>\n"
+                          "<td width=\"340px\">\n"
+                          "<div id=\"titolo\"></div>\n"
+                          "<div id=\"nomi\"></div>\n"
+                          "</td>\n"
+                          "<td>\n"
+                          "<canvas id=\"barre\" width=\"400px\" height=\"400px\"></canvas>\n"
+                          "</td>\n"
+                          "</tr>\n"
+                          "</table>\n");
+    fprintf(puntafileHTML,"</center>\n"); 
+    
+    
+    fprintf(puntafileHTML,"<script>\n"
+                          "var datiSerie = {\n"
+                          "labels : [");
+    
+    fseek(puntafileDati,0,SEEK_SET);
+    
+    for(i=0;i<lenghtRuoli;i++)
+        ruoli[i].lunghezza = 0;
+    
+    for(i=0;i<lenghtRuoli;i++){
+        for(k=0;k<cont;k++){
+            if((strcmp(ruoli[i].s,array[k].ruolo))==0)
+                ruoli[i].lunghezza ++;
+        }
+    }
+    
+    fprintf(puntafileHTML,"\"%s\"",ruoli[0].s);
+    for(i=1;i<lenghtRuoli;i++){
+        fprintf(puntafileHTML,",\"%s\"",ruoli[i].s);
+    }
+    fprintf(puntafileHTML,"],\n");
+    
+    fprintf(puntafileHTML,"datasets : [\n"
+			  "{\n"
+				"fillColor : \"rgba(220,0,220,0.5)\",\n"
+				"strokeColor : \"rgba(220,0,220,0.8)\",\n"
+				"highlightFill: \"rgba(220,0,220,0.75)\",\n"
+				"highlightStroke: \"rgba(220,0,220,1)\",\n"
+				"pointColor: \"rgba(220,0,220,.8)\",\n"
+				"pointStrokeColor: \"#fff\",\n"
+				"pointHighlightFill: \"#fff\",\n"
+				"pointHighlightStroke: \"rgba((220,0,220,1)\",\n"
+				"data : [");
+    fprintf(puntafileHTML,"%d",ruoli[0].lunghezza);
+    for(i=1;i<lenghtRuoli;i++)
+        fprintf(puntafileHTML,",%d",ruoli[i].lunghezza);
+    
+    fprintf(puntafileHTML,"]\n");
+    fprintf(puntafileHTML,"}\n");
+    fprintf(puntafileHTML,"]\n");
+    fprintf(puntafileHTML,"};\n");
+    fprintf(puntafileHTML,"var barre = document.getElementById(\"barre\").getContext(\"2d\");\n"); // Accede all'elemento con id=barre 
+    fprintf(puntafileHTML,"new Chart(barre).Bar(datiSerie);\n");   // Crea il grafico
+    fprintf(puntafileHTML,"</script>\n");  
+    
+    /*for(i=0;i<lenght;i++){
+        printf("%s ",ruoli[i].s);
+    }*/
+    
     fprintf(puntafileHTML,"</body>\n");
     fprintf(puntafileHTML,"</html>\n");
     
