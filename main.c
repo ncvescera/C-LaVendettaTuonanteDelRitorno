@@ -131,7 +131,7 @@ int main(){
     fprintf(puntafileHTML,"\n<br>\n<table width=1500px>\n"
                           "\t\t<tr>\n"
                           "\t\t<td width=\"50%\" style=\"border-right: 1px solid black;padding-left:30em;\">\n"
-                          "\t\t\t<div id=\"titolo\"></div>\n"
+                          "\t\t\t<div id=\"titolo\" onclick=\"riduci()\"></div>\n"
                           "\t\t\t<div id=\"nomi\"></div>\n"
                           "\t\t</td>\n"
                           "\t\t<td width=\"50%\" style=\"padding-left:4em;\">\n"
