@@ -98,7 +98,13 @@ int main(){
     strcpy(ruoli[lenghtRuoli].s, array[i-1].ruolo);
     lenghtRuoli++;
     
-    fprintf(puntafileHTML,"\t\t\t</select>\n\t\t</td>\n\t\n<td><button id=\"bottone\" type=\"button\" onclick=\"riduci()\">↑</button></td></tr>\n\t</table>\n");
+    fprintf(puntafileHTML,"\t\t\t</select>\n"
+                          "\t\t</td>\n"
+                          "\n\t\t<td>\n"
+                          "\t\t\t<button id=\"bottone\" type=\"button\" onclick=\"riduci()\">↑</button>\n"
+                          "\t\t</td>\n"
+                          "\t\t</tr>\n"
+                          "\t</table>\n");
     
     //scriptJS-stampaDati
     fprintf(puntafileHTML,"<SCRIPT type=\"text/javascript\">\n"
@@ -122,16 +128,16 @@ int main(){
                           "</SCRIPT>\n");
     
     //tabella ruoli-grafico
-    fprintf(puntafileHTML,"<br><table width=1500px>\n"
-                          "<tr>\n"
-                          "<td width=\"50%\" style=\"border-right: 1px solid black;padding-left:30em;\">\n"
-                          "<div id=\"titolo\"></div>\n"
-                          "<div id=\"nomi\"></div>\n"
-                          "</td>\n"
-                          "<td width=\"50%\" style=\"padding-left:4em;\">\n"
-                          "<canvas id=\"barre\" width=\"500px\" height=\"400px\"></canvas>\n"
-                          "</td>\n"
-                          "</tr>\n"
+    fprintf(puntafileHTML,"\n<br>\n<table width=1500px>\n"
+                          "\t\t<tr>\n"
+                          "\t\t<td width=\"50%\" style=\"border-right: 1px solid black;padding-left:30em;\">\n"
+                          "\t\t\t<div id=\"titolo\"></div>\n"
+                          "\t\t\t<div id=\"nomi\"></div>\n"
+                          "\t\t</td>\n"
+                          "\t\t<td width=\"50%\" style=\"padding-left:4em;\">\n"
+                          "\t\t\t<canvas id=\"barre\" width=\"500px\" height=\"400px\"></canvas>\n"
+                          "\t\t</td>\n"
+                          "\t\t</tr>\n"
                           "</table>\n");
     fprintf(puntafileHTML,"</center>\n"); 
     
