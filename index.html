@@ -28,14 +28,15 @@ var e = document.getElementById('select');
 var array = JSON.parse(e.options[e.selectedIndex].value);
 var ruolo = e.options[e.selectedIndex].text;
 array = array.sort();
-var i = 0;document.getElementById('titolo').innerHTML = "";
+var i = 0;
+document.getElementById('titolo').innerHTML = "";
 document.getElementById('nomi').innerHTML = "";
 document.getElementById('titolo').innerHTML="<h2>"+ruolo+"</h2>";
 for(i=0;i<array.length;i++){document.getElementById('nomi').innerHTML += array[i]+"<br>";}
 }
 
 function riduci(){
-if(document.getElementById("nomi").style.display == "none"){
+if(document.getElementById("nomi").style.display === "none"){
 document.getElementById("nomi").style.display = "block";
 document.getElementById("bottone").textContent = "↑";
 }
